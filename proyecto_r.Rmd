@@ -22,7 +22,6 @@ library(tidyverse)
 #### 1.2 Lectura del Archivo deaths_handwashing.csv y asignación a la variable yearly
 ```{r}
 yearly <- read_csv("./files/deaths_handwashing.csv",show_col_types = FALSE)
-
 ```
 
 #### 1.3 Detalle de la variable yearly
@@ -34,7 +33,7 @@ print(yearly)
 
 #### 2.1 Se agrega la columna proportion_deaths a yearly
 ```{r}
-yearly <- mutate(yearly, proportion_deaths = deaths/births)
+yearly <- mutate(yearly, proportion_deaths = deaths / births)
 
 ```
 
@@ -58,7 +57,7 @@ monthly <- read_csv("./files/deaths_clinic_1.csv",show_col_types = FALSE)
 
 ### 4.2 Se agrega la columna proportion_deaths a monthly
 ```{r}
-monthly <- mutate(monthly, proportion_deaths = deaths/births)
+monthly <- mutate(monthly, proportion_deaths = deaths / births)
 ```
 
 ### 4.3 Se imprimen los primeros 10 registros monthly
@@ -69,14 +68,14 @@ print(head(monthly,n=10))
 
 #### 5.1 Gráfica Lineal de proportion_deaths por fecha de Monthly
 ```{r}
-grafica <- ggplot(monthly, aes(x=date, y=proportion_deaths, color="Clinic 1"))+geom_line(colour="#2E86C1")
-grafica
+ggplot(monthly, aes(x=date, y=proportion_deaths, color="Clinic 1"))+geom_line(colour="#2E86C1")
 ```
 
 #### 5.2 Estética de Etiquetas con la función labs
 ```{r}
-grafica + labs(title="Clinic 1 - Proporción de Muertes por Número de Nacimientos", subtitle = "Desde 1841 Hasta 1849",
-            x="Fecha (Años)", y="Proporción de Muertes por Número de Nacimientos")
+ggplot(monthly, aes(x=date, y=proportion_deaths, color="Clinic 1"))+geom_line(colour="#2E86C1") +
+labs(title="Clinic 1 - Proporción de Muertes por Número de Nacimientos", subtitle = "Desde 1841 Hasta 1849", x="Fecha (Años)",
+            y="Proporción de Muertes por Número de Nacimientos")
 ```
 
 #### 5.3 Media por Año
@@ -92,4 +91,24 @@ ggplot(death_by_year, aes(x=Year,y=Mean)) + geom_bar(stat='identity',colour="#2E
 ```
 
 ## 6. Los resultados del lavado de manos
+
+#### 6.1 Se agrega nueva columna handwashing_started
+```{r}
+monthly <- mutate(monthly, handwashing_started = format(as.Date(date, format="%d/%m/%Y"),"%Y")>=1847)
+print(monthly)
+```
+
+#### 6.2 Gráfica Lineal de proportion_deaths por fecha, el color depende de handwashing_started
+```{r}
+ggplot(monthly, aes(x=date,y=proportion_deaths,color=handwashing_started))+geom_line()
+```
+
+#### 6.3 Se crean etiquetas con labs
+```{r}
+ggplot(monthly, aes(x=date,y=proportion_deaths,color=handwashing_started))+geom_line() +
+labs(title="Clinic 1 - Proporción de Muertes por Número de Nacimientos", subtitle = "Desde 1841 Hasta 1849", 
+            x="Fecha (Año)", y="Muertes por número de Nacimientos")
+```
+
+
 
