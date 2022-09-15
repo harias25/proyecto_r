@@ -120,6 +120,19 @@ print(month_summary)
 
 ## 8. Análisis estadístico de los datos de lavado de manos
 
+```{r}
+
+t.test(proportion_deaths ~ handwashing_started,
+       data = monthly,
+       var.equal   = TRUE,
+       conf.level  = 0.95)
+
+#t = valor del estadistico de prueba
+#df = grados de libertad
+#p-value = significancia de la prueba
+# p-value < 0.05 se rechaza la hipotesis y se confirma
+# que desde que inicio el lavado de manos disminuyo el número de muertes
+```
 
 
 
